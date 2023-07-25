@@ -1,0 +1,43 @@
+
+version: '3.9'
+
+services:
+
+#  database_redis_01:
+#    image: redis:7.0.12
+#    container_name: database-redis-01
+#    restart: always
+#    environment:
+#      - VIRTUAL_PORT=6379
+#      - TERM=xterm
+#    volumes:
+#      - ./backup:/backup
+#      - ./data/redis_01:/data
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - database_redis_network
+
+  database_redis_stack:
+    image: redis/redis-stack:latest
+    container_name: database-redis-stack
+    restart: always
+    environment:
+      - TERM=xterm
+    volumes:
+      - ./backup:/backup
+      - ./data/redis_01:/data
+    ports:
+      - "6379:6379"
+      - "8000:8001"
+    networks:
+      - database_redis_network
+
+networks:
+  database_redis_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.12.0.0/24
+          gateway: 172.12.0.1
